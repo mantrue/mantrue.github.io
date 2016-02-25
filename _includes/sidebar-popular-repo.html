@@ -1,7 +1,7 @@
 <h3>Popular Repositories</h3>
-{% assign repos = site.github.public_repositories | sort: "stargazers_count" | reverse%}
-{% for repo in popular_repos %}
-    {% if site.popular_repos contains repo.name %}
+{% assign repos = site.popular_repos | sort: "stargazers_count" | reverse%}
+{% for repo in repos %}
+    {% if site.repos contains repo.name %}
     <section class="repo-card">
         <a href="{{ repo.html_url }}" target="_blank">
             <div class="repo-card-image geopattern" data-pattern-id="{{ repo.name | truncate: 9,'' }}">
