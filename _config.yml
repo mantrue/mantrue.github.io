@@ -3,7 +3,7 @@ name: mantrue
 email: anzhengchao@gmail.com
 description: 承鹏辉，网名mantrue，PHP工程师，从事web相关的开发工作。开源爱好者，GitHub:https://github.com/mantrue。
 keywords: Laravel,Laravel教程,Laravel安装,Laravel视频,承鹏辉,mantrue,Pinyin,汉字转拼音
-skill_keywords: [PHP, Javascript, HTML+CSS, Linux, Laravel, Git, Mac, RESTful, Stackoverflow, Sublime Text, OmniGaffale, OminiPlan]
+skill_keywords: [PHP, Javascript, HTML+CSS, Linux, RESTful, Sublime Text]
 
 timezone:    PRC
 encoding: "utf-8"
