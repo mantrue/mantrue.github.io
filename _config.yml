@@ -73,5 +73,5 @@ navs:
     href: /about
     label: About
 
-popular_repos: ['Grad']
+popular_repos: ['grad']
 contribute_repos: ['laravel/framework', 'top-think/thinkphp']
