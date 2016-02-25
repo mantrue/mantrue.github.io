@@ -47,7 +47,7 @@ excerpt: 以Coding上私有库的部署为例来讲解如何使用Coding的hook�
 
   在你的www目录建立一个目录`hook`, 里面放上一个php文件`index.php`，内容如下：
   
-  <script src="https://gist.github.com/overtrue/0bf1cd704bf804de2e2c.js"></script>
+  <script src="https://gist.github.com/mantrue/0bf1cd704bf804de2e2c.js"></script>
   
   在此目录下建立一个目录`repos`:
   
@@ -66,7 +66,7 @@ excerpt: 以Coding上私有库的部署为例来讲解如何使用Coding的hook�
 4.修改git配置
 
 ```shell
- git config --global user.name "overtrue" 
+ git config --global user.name "mantrue" 
  git config --global user.email "anzhengchao@gmail.com" # 邮箱请与conding上一致
 ```
 
@@ -105,4 +105,4 @@ excerpt: 以Coding上私有库的部署为例来讲解如何使用Coding的hook�
 
 OK，稍微一几秒，正常的话你在代码里配置的目标目录里就会有你的项目文件了。
 
-有问题请随时反馈：https://gist.github.com/overtrue/0bf1cd704bf804de2e2c
+有问题请随时反馈：https://gist.github.com/mantrue/0bf1cd704bf804de2e2c

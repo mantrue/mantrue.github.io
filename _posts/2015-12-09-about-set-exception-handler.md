@@ -4,7 +4,7 @@ title: 如何在全局 exception handler 中调用前一个定义的 handler
 excerpt: 在 PHP 全局异常处理器注册函数 set_exception_handler 注册一个新的 handler 之前备份前一个 handler， 并调用它来处理非自己业务的异常
 ---
 
-今天在写 [overtrue/wechat 3.0](https://github.com/overtrue/wechat/tree/3.0) 的时候，考虑到用户 debug 的问题。期望把日志包括产生的异常日志都记到用户配置的日志文件里。
+今天在写 [mantrue/wechat 3.0](https://github.com/mantrue/wechat/tree/3.0) 的时候，考虑到用户 debug 的问题。期望把日志包括产生的异常日志都记到用户配置的日志文件里。
 
 因为代码在不同的组件，不可能用 `try...catch`。我打算使用 [set_exception_handler](http://php.net/manual/en/function.set-exception-handler.php) 注册一个全局异常处理器来做这事儿，但是，我这个只是一个开源组件，可能会被用户用到各种各样的环境中，所以，不能破坏原有框架或者用户自己定义的异常处理器，因为 `set_exception_handler` 会覆盖前面设置的，所以问题就卡住了。
 
@@ -36,7 +36,7 @@ throw new Exception("Exception two", 1);
 然后就报错了...
 
 ```
-PHP Fatal error:  Cannot destroy active lambda function in /Users/overtrue/www/foo.php on line 15
+PHP Fatal error:  Cannot destroy active lambda function in /Users/mantrue/www/foo.php on line 15
 ```
 
 于是 google, stackoverflow... 都无解。

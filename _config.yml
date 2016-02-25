@@ -40,7 +40,7 @@ gems:
   - jekyll-html-pipeline
 
 disqus:
-  id: overtrue
+  id: mantrue
 
 google:
     analytics_id: UA-55452630-1

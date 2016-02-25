@@ -12,15 +12,15 @@ excerpt: 到目前为止这可能是最准确的一个解决方案了，大GitHu
 - 添加补充词典，解决CC-CEDICT不全或者不准确的问题；
 - 添加词频表，根据使用频率再一步提高多音字的准确度；
 
-[Pinyin](http://overtrue.me/pinyin)
+[Pinyin](http://mantrue.me/pinyin)
 ======
 
-主页：[http://overtrue.me/pinyin](http://overtrue.me/pinyin)
+主页：[http://mantrue.me/pinyin](http://mantrue.me/pinyin)
 
 基于CC-CEDICT词典的中文转拼音工具, 更准确的汉字转拼音解决方案。 [CC-CEDICT](http://cc-cedict.org/wiki/).
 
 ```php
-use \Overtrue\Pinyin;
+use \mantrue\Pinyin;
 
 echo Pinyin::pinyin('带着希望去旅行，比到达终点更美好');
 // dài zhe xī wàng qù lǔ xíng bǐ dào dá zhōng diǎn gèng měi hǎo
@@ -78,7 +78,7 @@ Pinyin::pinyin('难过'); // nán guò
 1. 使用 Composer 安装:
 
 ```shell
-composer require overtrue/pinyin >=1.4
+composer require mantrue/pinyin >=1.4
 ```
 
 或者在你的项目composer.json加入：
@@ -86,23 +86,23 @@ composer require overtrue/pinyin >=1.4
 ```javascript
 {
     "require": {
-        "overtrue/pinyin": ">=1.4"
+        "mantrue/pinyin": ">=1.4"
     }
 }
 ```
 
-2. 直接下载文件 `src/Overtrue/Pinyin.php` 引入到项目中。
+2. 直接下载文件 `src/mantrue/Pinyin.php` 引入到项目中。
 
 
 # 使用
 
 ```php
 <?php
-use \Overtrue\Pinyin;
+use \mantrue\Pinyin;
 
 //获取拼音
 echo Pinyin::pinyin('带着希望去旅行，比到达终点更美好');
-//或者: Overtrue\pinyin($string);
+//或者: mantrue\pinyin($string);
 // dài zhe xī wàng qù lǔ xíng bǐ dào dá zhōng diǎn gèng měi hǎo
 
 //获取首字母
@@ -152,7 +152,7 @@ echo Pinyin::pinyin('带着希望去旅行，比到达终点更美好');
 ```
 
 # Contribution
-欢迎提意见及完善补充词库 `src/Overtrue/data/additional.php`! :kiss:
+欢迎提意见及完善补充词库 `src/mantrue/data/additional.php`! :kiss:
 
 # 参考
 - [CC-CEDICT](http://cc-cedict.org/wiki/)

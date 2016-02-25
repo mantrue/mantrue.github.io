@@ -191,7 +191,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 Capsule::table('users')->insert(array(
         array('username' => 'Hello',  'email' => 'hello@world.com'),
         array('username' => 'Carlos',  'email' => 'anzhengchao@gmail.com'),
-        array('username' => 'Overtrue',  'email' => 'i@overtrue.me'),
+        array('username' => 'mantrue',  'email' => 'i@mantrue.me'),
     ));
 
 
@@ -226,7 +226,7 @@ $users = User::all();
 // 创建数据
 $user = new User;
 $user->username = 'someone';
-$user->email = 'some@overtrue.me';
+$user->email = 'some@mantrue.me';
 $user->save();
 
 // ... 更多
@@ -235,7 +235,7 @@ $user->save();
 
 OK，这基本上就搞定了，当然，你用分页的时候会出问题，我们下一节再讲。
 
-为了给大家一个完整的示例，我这里使用[Slim](https://github.com/codeguy/slim)结合Eloquent做了一个实例：[overtrue/rester](https://github.com/overtrue/rester)
+为了给大家一个完整的示例，我这里使用[Slim](https://github.com/codeguy/slim)结合Eloquent做了一个实例：[mantrue/rester](https://github.com/mantrue/rester)
 
 [《在Laravel外使用Eloquent（二）- 分页问题》](/2014/11/25/using-eloquent-outside-laravel-2.html) 
 

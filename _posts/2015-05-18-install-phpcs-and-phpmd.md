@@ -62,13 +62,13 @@ phpcs --config-set installed_paths PATH_TO_SEARCH_STANDARDS
 注意：假设标准为 `Weibo`, 目录为:
 
 ```
-/Users/overtrue/code_standards/Weibo
+/Users/mantrue/code_standards/Weibo
 ```
 
   其中`Weibo` 里才是 `ruleset.xml`，那么对应上面的 `PATH_TO_SEARCH_STANDARDS` 应该为：
 
 ```
-phpcs --config-set installed_paths /Users/overtrue/code_standards
+phpcs --config-set installed_paths /Users/mantrue/code_standards
 ```
 
 ##### 查看已经安装的标准：
@@ -184,6 +184,6 @@ phpmd /path/to/source text /phpmd_ruleset.xml
     - text, 简单的文本格式；
     - html, 输出到单个的html；
 
-这里有一个phpmd规则可参考：https://github.com/overtrue/phpmd-rulesets
+这里有一个phpmd规则可参考：https://github.com/mantrue/phpmd-rulesets
 
 更多关于 PHPMD 的使用请参考：http://phpmd.org/documentation/index.html
