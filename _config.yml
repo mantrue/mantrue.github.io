@@ -8,7 +8,7 @@ skill_keywords: [PHP, Javascript, HTML+CSS, Linux, RESTful, Sublime Text]
 timezone:    PRC
 encoding: "utf-8"
 
-url: mantrue.github.io
+url: http://mantrue.github.io
 baseurl:  "/"
 domain:    mantrue.github.io
 permalink:     /articles/:year/:month/:title.html
