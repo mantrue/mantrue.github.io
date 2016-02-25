@@ -191,7 +191,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 Capsule::table('users')->insert(array(
         array('username' => 'Hello',  'email' => 'hello@world.com'),
         array('username' => 'Carlos',  'email' => 'anzhengchao@gmail.com'),
-        array('username' => 'mantrue',  'email' => 'i@mantrue.me'),
+        array('username' => 'mantrue',  'email' => 'i@mantrue.github.io'),
     ));
 
 
@@ -226,7 +226,7 @@ $users = User::all();
 // 创建数据
 $user = new User;
 $user->username = 'someone';
-$user->email = 'some@mantrue.me';
+$user->email = 'some@mantrue.github.io';
 $user->save();
 
 // ... 更多

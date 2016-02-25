@@ -23,7 +23,7 @@ namespace Rester;
  *
  * @author mantrue <anzhengchao@gmail.com>
  * @github https://github.com/mantrue
- * @url    http://mantrue.me
+ * @url    http://mantrue.github.io
  * @date   2014-10-23T20:05:33
  */
 

@@ -1,13 +1,13 @@
-[Share.js](http://mantrue.me/share.js/)
+[Share.js](http://mantrue.github.io/share.js/)
 ===
 
 一键分享到微博，QQ空间，QQ好友，微信，豆瓣，使用字体图标。
 
 ![image](https://cloud.githubusercontent.com/assets/1472352/11419582/4c7ff370-9463-11e5-8b83-356940a2824e.png)
 
-[DEMO](http://mantrue.me/share.js/)
+[DEMO](http://mantrue.github.io/share.js/)
 
-或者直接浏览我的博客 http://mantrue.me 或者 http://laravel.so 内容页查看效果。
+或者直接浏览我的博客 http://mantrue.github.io 或者 http://laravel.so 内容页查看效果。
 
 # 安装
 

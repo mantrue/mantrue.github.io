@@ -12,7 +12,7 @@ menu: About
 ## 概况
 
 - 邮箱：penghui219@163.com
-- 主页：[http://mantrue.me](http://mantrue.me)
+- 主页：[http://mantrue.github.io](http://mantrue.github.io)
 - 微博：[@承鹏辉](http://weibo.com/peen219)
 
 电子商务专业肄业，{{ current_year | minus: 2012 }} 年在职工作经验，{{ current_year | minus: 2013 }} 年 web 开发经验。
