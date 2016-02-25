@@ -73,5 +73,5 @@ navs:
     href: /about
     label: About
 
-popular_repos: ['Grad', 'mantrue.github.io']
+popular_repos: ['Grab']
 contribute_repos: ['laravel/framework', 'top-think/thinkphp']
