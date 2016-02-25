@@ -5,7 +5,7 @@ menu: About
 ---
 {% assign current_year = site.time | date: '%Y' %}
 
-安正超
+承鹏辉
 ===
 男 90后
 
@@ -13,7 +13,7 @@ menu: About
 
 - 邮箱：anzhengchao#gmail.com
 - 主页：[http://overtrue.me](http://overtrue.me)
-- 微博：[@安正超](http://weibo.com/joychaocc)
+- 微博：[@承鹏辉](http://weibo.com/joychaocc)
 
 计算机专业毕业，{{ current_year | minus: 2012 }} 年在职工作经验，{{ current_year | minus: 2010 }} 年 web 开发经验。
 

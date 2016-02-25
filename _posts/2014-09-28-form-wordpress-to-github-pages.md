@@ -25,4 +25,4 @@ WordPress的强大是大家有目共睹的，主题，插件也都很丰富，�
 - 绑定域名
    在你的项目里添加`CNAME`文件,里面只能放一个域名，可以参考我的项目：[overtrue.github.io](https://github.com/overtrue/overtrue.github.io)
 
-有需要帮忙也可以联系我，[GitHub](https://github.com/overtrue) 或者 [微博 @安正超](http://weibo.com/joychaocc) :smiley:
+有需要帮忙也可以联系我，[GitHub](https://github.com/overtrue) 或者 [微博 @承鹏辉](http://weibo.com/joychaocc) :smiley:
