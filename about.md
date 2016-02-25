@@ -29,6 +29,6 @@ menu: About
 
 | 名称 | 熟悉程度
 |--:|:--|
-| PHP | ★★★★★ |
-| javascript | ★★★★☆ |
-| Linux | ★★★★☆ |
+| PHP | ★★★☆☆ |
+| javascript | ★★★☆☆ |
+| Linux | ★★★☆☆ |
