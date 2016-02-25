@@ -7,7 +7,7 @@ menu: About
 
 承鹏辉
 ===
-男 90后
+男 90后  ![mahua](mahua-logo.jpg)
 
 ## 概况
 
