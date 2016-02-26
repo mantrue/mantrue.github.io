@@ -32,7 +32,7 @@ menu: About
 | PHP | ★★★★☆ |
 | javascript | ★★★☆☆ |
 | Linux | ★★★★☆ |
-| HTML+CSS | ★★★★★ |
+| HTML+CSS | ★★★☆☆ |
 
 ### 成长经历
 * 2013/06 就职于鼎新拓达
