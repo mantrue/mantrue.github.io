@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 关于
-menu: about
+menu: About
 ---
 {% assign current_year = site.time | date: '%Y' %}
 
