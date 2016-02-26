@@ -4,12 +4,14 @@ title: GitHub Pages 绑定来自阿里云的域名
 ---
 
 ## 简介
-我在阿里云上注册了一个新域名：penghui.link，我已经在GitHub Pages上建立了自己的博客：kun-wang.github.io。现在我希望将penghui.link映射到kun-wang.github.io。主要参考资料：
+我在阿里云上注册了一个新域名：penghui.link，我已经在GitHub Pages上建立了自己的博客：kun-wang.github.io。现在我希望将penghui.link映射到kun-wang.github.io。
+
+主要参考资料：
 * <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/">Setting up a custom domain with GitHub Pages</a>
 * <a href="http://blog.csdn.net/renfufei/article/details/37725057">创建GitHub技术博客全攻略 - 第九部分：CNAME绑定域名</a>
 * <a href="http://blog.fens.me/hexo-blog-github/">Hexo在github上构建免费的Web应用 - 第4.3节：设置域名</a>
 
-##第一步：创建CNAME文件夹
+## 第一步：创建CNAME文件夹
 在你的个人博客仓库的根目录中新建文件CNAME（注意没有后缀），在该文件增加一行文字，告诉Github Pages服务器你想指定的域名。
 该域名不能包含前缀信息，即不能添加http:\\前缀。
 > !重要补充！CNAME文件名一定要大写，否则Github Pages服务器无法识别和解析。
@@ -23,7 +25,7 @@ Google之后发现CNAME文件名的大小写会产生影响（My custom domain i
 每个CNAME文件能且只能指定一个域名。更多关于增加CNAME文件的信息可见Adding a CNAME file to your repository。
 第一步的目的是，Github读取你的CNAME之后，Github服务器会设置penghui.link为你的主域名，然后将kun-wang.github.io重定向到penghui.link。
 
-##第二步：CNAME绑定域名
+## 第二步：CNAME绑定域名
 登录阿里云单域名控制台，在域名解析中添加如图所示的解析
 <img src='/assets/images/github.png'>
 默认使用阿里云提供的万网DNS服务器。当然你也可以使用DNSPOD提供的DNS服务器，这样可以使你的域名在国外更快速的传播。当你使用DNSPOD提供的DNS服务器时，除了DNS服务器不一样以外，其他的设置（比如A记录和CNAME记录）均相同。以下我们简要分析我们所添加的A记录和CNAME记录的含义。
@@ -37,7 +39,7 @@ Google之后发现CNAME文件名的大小写会产生影响（My custom domain i
 注意，.me已经是顶级域名（和.com、.org等域名是同一级的），所以需要使用A记录进行域名解析。
 第二步的目的是，告诉所有DNS服务器，对于penghui.link的访问都会被重定向到kun-wang.github.io。
 
-##第三步：漫长的等待
+## 第三步：漫长的等待
 
 作者
 @承鹏辉  
