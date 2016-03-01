@@ -35,6 +35,8 @@ menu: About
 | Linux | ★★★★☆ |
 | Shell | ★★★☆☆ |
 | Python | ★★☆☆☆ |
+| Markdown | ★★☆☆☆ |
+
 
 
 ### 成长经历
