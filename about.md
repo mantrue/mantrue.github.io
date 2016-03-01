@@ -29,10 +29,13 @@ menu: About
 
 | 名称 | 熟悉程度
 |--:|:--|
-| PHP | ★★★★☆ |
-| javascript | ★★★☆☆ |
-| Linux | ★★★★☆ |
 | HTML+CSS | ★★★☆☆ |
+| javascript | ★★★☆☆ |
+| PHP | ★★★★☆ |
+| Linux | ★★★★☆ |
+| Shell | ★★★☆☆ |
+| Python | ★★☆☆☆ |
+
 
 ### 成长经历
 * 2013/06 就职于 亲亲宝贝
