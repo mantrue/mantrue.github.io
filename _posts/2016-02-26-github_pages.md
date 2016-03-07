@@ -2,9 +2,6 @@
 layout: post
 title: GitHub Pages 绑定来自阿里云的域名
 ---
-作者
-@承鹏辉  
-
 ## 简介
 我在阿里云上注册了一个新域名：penghui.link，我已经在GitHub Pages上建立了自己的博客：mantrue.github.io现在我希望将penghui.link映射到mantrue.github.io
 
@@ -50,5 +47,7 @@ Google之后发现CNAME文件名的大小写会产生影响（My custom domain i
 
 ## 第三步：漫长的等待
 
+作者
+@承鹏辉 
 
 
