@@ -46,7 +46,7 @@ title: PHP 数组&&文件操作
 ### 已知docx文件的前4个字节的内容是 504B0304（16进制），判断一个文件是否正常的docx文件? 
 
 ```
-	function fileTyep ( $filename ) {  
+function fileTyep ( $filename ) {  
         $f = fopen($filename,'rb');  
         $byte = fread($f,4);  
         fclose($f);  
