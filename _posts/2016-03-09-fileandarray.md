@@ -29,20 +29,40 @@ title: PHP 数组&&文件操作
 	foreach( $items as $v ) {  
 		if ( _isPrivate($v['ip']) ) {  
 			$ip = $v['ip'];  
-			if (array_key_exists($ip,$newlist)) { //判断在新数组中是否已经存在该下标的数据  
+			//判断在新数组中是否已经存在该下标的数据  
+			if (array_key_exists($ip,$newlist)) { 
 				$newlist[$ip]['count']+=$v['count']; //存在累加  
 			} else {  
 				$newlist[$ip]['count']=$v['count']; //不存在放入数组  
 			}  
 		}  
 	}  
-	   
-	array_multisort($newlist,SORT_DESC,SORT_NUMERIC); //按数字降序排列  
+	//按数字降序排列  
+	array_multisort($newlist,SORT_DESC,SORT_NUMERIC); 
 	print_r($newlist);
 	
 ```
 
-### 已知道docx文件的前4个字节的内容是 504B0304（16进制），判断一个文件是否正常的docx文件
+### 已知docx文件的前4个字节的内容是 504B0304（16进制），判断一个文件是否正常的docx文件? 
+
+```
+	function fileTyep ( $filename ) {  
+        $f = fopen($filename,'rb');  
+        $byte = fread($f,4);  
+        fclose($f);  
+        $code = unpack('H8',$byte);  
+        if ( strtoupper($code[1] == '504B0304' )){  
+            return true;  
+        } else {  
+            return false;  
+        }  
+           
+    }  
+    var_dump(fileTyep('test.docx'));  
+
+```
+
+### 用xmlreader读取一个超过1G的大xml文件
 
 ```
 	ini_set('memory_limit','-1'); //不限制  
