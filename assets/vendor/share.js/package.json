@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mantrue/share.js.git"
+    "url": "git+https://github.com/overtrue/share.js.git"
   },
   "keywords": [
     "sns",
@@ -22,12 +22,12 @@
     "facebook",
     "google"
   ],
-  "author": "mantrue",
+  "author": "overtrue",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mantrue/share.js/issues"
+    "url": "https://github.com/overtrue/share.js/issues"
   },
-  "homepage": "https://github.com/mantrue/share.js#readme",
+  "homepage": "https://github.com/overtrue/share.js#readme",
   "devDependencies": {
     "event-stream": "*",
     "del": "*",
