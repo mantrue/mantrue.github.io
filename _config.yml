@@ -60,7 +60,11 @@ navs:
     label: GitHub
     target: _blank
 
-  
+  -
+    href: http://weibo.com/p/1005055866477269/home?from=page_100505_profile&wvr=6&mod=data&is_all=1
+    label: Weibo
+    target: _blank
+
   -
     href: /bookmark
     label: Bookmark
