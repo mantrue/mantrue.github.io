@@ -1,7 +1,7 @@
 /**
  * Share.js
  *
- * @author  mantrue <i@mantrue.github.io>
+ * @author  overtrue <i@overtrue.me>
  * @license MIT
  *
  * @example

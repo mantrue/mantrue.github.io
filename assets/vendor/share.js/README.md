@@ -1,13 +1,13 @@
-[Share.js](http://mantrue.github.io/share.js/)
+[Share.js](http://overtrue.me/share.js/)
 ===
 
 一键分享到微博，QQ空间，QQ好友，微信，豆瓣，使用字体图标。
 
 ![image](https://cloud.githubusercontent.com/assets/1472352/11419582/4c7ff370-9463-11e5-8b83-356940a2824e.png)
 
-[DEMO](http://mantrue.github.io/share.js/)
+[DEMO](http://overtrue.me/share.js/)
 
-或者直接浏览我的博客 http://mantrue.github.io 或者 http://laravel.so 内容页查看效果。
+或者直接浏览我的博客 http://overtrue.me 或者 http://laravel.so 内容页查看效果。
 
 # 安装
 
@@ -58,7 +58,7 @@ $('.share-component').share($config);
 ```js
 
 url                 : '', // 网址，默认使用 window.location.href
-source              : '', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://mantrue" />
+source              : '', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
 title               : '', // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
 description         : '', // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
 image               : '', // 图片, 默认取网页中第一个img标签
