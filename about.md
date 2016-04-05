@@ -33,8 +33,7 @@ menu: About
 | javascript | ★★★☆☆ |
 | PHP | ★★★★☆ |
 | Linux | ★★★★☆ |
-| Shell(bash) | ★★★☆☆ |
-| Python | ★★☆☆☆ |
+| Shell(bash) | ★★☆☆☆ |
 | Markdown | ★★☆☆☆ |
 
 
