@@ -2,31 +2,24 @@
 layout: default
 ---
 
-<div class="archive-description">
-  <h1 class="archive-title">{{ page.category }} Archive</h1>
-  {{ content }}
-</div>
-
-<div class="wrap">
-{% if site.categories[page.category] %}
-  <div class="group-year">
-    {% for post in site.categories[page.category] %}
-      {% capture this_year %}{{ post.date | date: "%Y" }}{% endcapture %}
-      {% unless year == this_year %}
-        {% assign year = this_year %}
-        <p>{{ year }}</p>
-      {% endunless %}
-      <article>
-        <h3><a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a></h3>
-        <time>
-          <span class="month">{{ post.date | date: "%b" }}</span>
-          <span class="day">{{ post.date | date: "%d" }}</span>
-          <span class="year">{{ post.date | date: "%Y" }}</span>
-        </time>
-      </article>
+<ul class="list-posts">
+    {% assign empty_category = true %}
+    {% for post in site.posts %}
+        {% if post.categories contains page.category %}
+            <li class="post-teaser">
+                <a href="{{ post.url | prepend: site.baseurl }}">
+                    <span class="post-teaser__title">{{ post.title }}</span>
+                    <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
+                </a>
+            </li>
+            {% assign empty_category = false %}
+        {% endif %}
     {% endfor %}
-  </div>
-{% else %}
-  <p>There are no posts in this category.</p>
-{% endif %}
-</div>
+
+    {% if empty_category %}
+        <li class="empty-post-list">
+            It seems that there are no articles on that category,
+            please go back <a href="/">home</a> to see the full list of articles.
+        </li>
+    {% endif %}
+</ul>
