@@ -15,15 +15,18 @@
 </div>
 
 <div class="boxed-group flush" role="navigation">
-<h4>Category</h4>
-<ul class="boxed-group-inner mini-repo-list">
-    
-    {% for category in site.categories %}
-    <li class="public source "><a href="/categories/{{ category | first }}" title="view all
-posts">{{ category | first }} ({{ category | last | size }})</a>
-    </li>
-    {% endfor %}
-</ul>
+    <h3>Category</h3>
+    <ul class="boxed-group-inner mini-repo-list">
+        {% for category in site.categories %}
+        <li class="public source ">
+            <a href="/categories/{{ category | first }}" target="_blank" title="{{ repo }}" class="mini-repo-list-item css-truncate">
+                <span class="repo-icon octicon octicon-repo"></span>
+                <span class="repo-and-owner css-truncate-target">
+                    {{ category | first }} ({{ category | last | size }})
+                </span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
-
 
