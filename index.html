@@ -37,7 +37,7 @@ css: ['pages/index.css']
         <div class="column two-thirds" >
             <ol class="repo-list">
             {% for category in site.categories %}
-                {% for post in page.categories.category %}
+                {% for post in category %} 
                 <li class="repo-list-item">
                     <h3 class="repo-list-name">
                         <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
