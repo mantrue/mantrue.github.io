@@ -14,14 +14,16 @@
     </ul>
 </div>
 
+<div class="boxed-group flush" role="navigation">
 <h4>Category</h4>
-<ul>
+<ul class="boxed-group-inner mini-repo-list">
     
     {% for category in site.categories %}
-    <li><a href="/categories/{{ category | first }}" title="view all
-posts">{{ category | first }} {{ category | last | size }}</a>
+    <li class="public source "><a href="/categories/{{ category | first }}" title="view all
+posts">{{ category | first }} ({{ category | last | size }})</a>
     </li>
     {% endfor %}
 </ul>
+</div>
 
 
