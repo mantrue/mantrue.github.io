@@ -1,6 +1,7 @@
 ---
 layout: post
 title: GitHub Pages 绑定来自阿里云的域名
+category: php
 ---
 ## 简介
 我在阿里云上注册了一个新域名：penghui.link，我已经在GitHub Pages上建立了自己的博客：mantrue.github.io现在我希望将penghui.link映射到mantrue.github.io
