@@ -11,12 +11,13 @@ class: padY30 mark
 {% assign category_words = site_categories | split:',' | sort %}
 <!-- category_words: {{ category_words }} -->
 
-<ul class="tag-box">
+<ul class="tag-box btn-inline">
   {% for item in (0..site.categories.size) %}{% unless forloop.last %}
   {% capture this_word %}{{ category_words[item] | strip_newlines }}{% endcapture %}
-  <li><a href="#{{ this_word | cgi_escape }}" rel="nofollow">{{ this_word }} <sup>{{ site.categories[this_word].size }}</sup></a></li>
+  <li><a href="#{{ this_word | cgi_escape }}" rel="nofollow"><button class="btn btn-outline" type="button">{{ this_word }}</button> <sup>{{ site.categories[this_word].size }}</sup></a></li>
   {% endunless %}{% endfor %}
 </ul>
+
 
 {% for item in (0..site.categories.size) %}{% unless forloop.last %}
 {% capture this_word %}{{ category_words[item] | strip_newlines }}{% endcapture %}
