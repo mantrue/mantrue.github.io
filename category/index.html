@@ -2,19 +2,12 @@
 layout: default
 ---
 
-<ul class="list-posts">
-    
-    {% for post in site.posts %}
-        {% if post.categories contains page.category %}
-            <li class="post-teaser">
-                <a href="{{ post.url | prepend: site.baseurl }}">
-                    <span class="post-teaser__title">{{ post.title }}</span>
-                    <span class="post-teaser__date">{{ post.date | date: "%d %B %Y" }}</span>
-                </a>
-            </li>
-            {% assign empty_category = false %}
-        {% endif %}
+{% for category in site.categories %}
+<h2>{{ category | first }}</h2>
+</span>{{ category | last | size }}</span>
+<ul class="arc-list">
+    {% for post in category.last %}
+        <li>{{ post.date | date:"%d/%m/%Y"}}<a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
-
-    
 </ul>
+{% endfor %}
