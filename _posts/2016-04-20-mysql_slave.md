@@ -41,8 +41,9 @@ category: mysql
 start slave;   MASTER_LOG_FILE和 MASTER_LOG_POS 的值就是刚刚在主库中查看的值。填写命令语句中执行就ok了
 	4.start slave; 重启
 	5.show slave status\G; 查看从库状态
-	6.如果状态中	Slave_IO_Running: Yes
-					Slave_SQL_Running: Yes
+	6.如果状态中	
+	Slave_IO_Running: Yes
+	Slave_SQL_Running: Yes
 	恭喜配置成功
 	
 ### 每次修改ini配置文件，记得重启mysql
