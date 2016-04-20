@@ -1,6 +1,8 @@
 ---
-layout: default
+layout: page
 css: ['pages/style.css']
+menu: cate
+class: padY30 mark
 ---
 
 {% capture site_categories %}{% for category in site.categories %}{{ category | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
