@@ -2,7 +2,7 @@
 layout: default
 ---
 
-{% for category in site.[0].categories %}
+{% for category in site.categories.CATEGORY %}
   <li><a name="{{ category | first }}">{{ category | first }}</a>
     <ul>
     {% for posts in category %}
