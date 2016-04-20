@@ -19,7 +19,7 @@
     <ul class="boxed-group-inner mini-repo-list">
         {% for category in site.categories %}
         <li class="public source ">
-            <a href="/categories/{{ category | first }}/" title="{{ category | first }}" class="mini-repo-list-item css-truncate">
+            <a href="/category/{{ category | first }}/" title="{{ category | first }}" class="mini-repo-list-item css-truncate">
                 <span class="repo-icon octicon octicon-repo"></span>
                 <span class="repo-and-owner css-truncate-target">
                     {{ category | first }} ({{ category | last | size }})
