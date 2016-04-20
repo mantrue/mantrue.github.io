@@ -14,7 +14,7 @@ class: padY30 mark
 <ul class="tag-box btn-inline">
   {% for item in (0..site.categories.size) %}{% unless forloop.last %}
   {% capture this_word %}{{ category_words[item] | strip_newlines }}{% endcapture %}
-  <li><a href="#{{ this_word | cgi_escape }}" rel="nofollow" class='fenlei'><span class="btn btn-outline">{{ this_word }}</span> <sup>{{ site.categories[this_word].size }}</sup></a></li>
+  <li><a href="#{{ this_word | cgi_escape }}" rel="nofollow" class='fenlei'><span class="btn btn-outline">{{ this_word }} <sup>{{ site.categories[this_word].size }}</sup></span></a></li>
   {% endunless %}{% endfor %}
 </ul>
 
