@@ -29,6 +29,7 @@ EXPLAIN SELECT `surname`,`first_name` FORM `a`,`b` WHERE `a`.`id`=`b`.`id`
 | `Extra` | 关于MySQL如何解析查询的额外信息。将在表4.3中讨论，但这里可以看到的坏的例子是`Using temporary`和`Using filesort`，意思MySQL根本不能使用索引，结果是检索会很慢。  |
 
 **type列返回的描述的意义：**
+
 | ---- | ---- |
 | `system` | 表仅有一行(=系统表)。这是 const 连接类型的一个特例。|
 | `const` | const 用于用常数值比较 PRIMARY KEY 时。当 查询的表仅有一行时,使用 System。|
