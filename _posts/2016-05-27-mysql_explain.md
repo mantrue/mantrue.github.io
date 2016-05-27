@@ -28,6 +28,20 @@ EXPLAIN SELECT `surname`,`first_name` FORM `a`,`b` WHERE `a`.`id`=`b`.`id`
 | `rows` | MySQL认为必须检查的用来返回请求数据的行数。 |
 | `Extra` | 关于MySQL如何解析查询的额外信息。将在表4.3中讨论，但这里可以看到的坏的例子是`Using temporary`和`Using filesort`，意思MySQL根本不能使用索引，结果是检索会很慢。  |
 
+**type列返回的描述的意义：**
+| ---- | ---- |
+| `system` | 表仅有一行(=系统表)。这是 const 连接类型的一个特例。|
+| `const` | const 用于用常数值比较 PRIMARY KEY 时。当 查询的表仅有一行时,使用 System。|
+| `eq_ref` | const 用于用常数值比较 PRIMARY KEY 时。当 查询的表仅有一行时,使用 System。|
+| `ref` | 连接不能基于关键字选择单个行,可能查找 到多个符合条件的行。 叫做 ref 是因为索引要 跟某个参考值相比较。这个参考值或者是一 个常数,或者是来自一个表里的多表查询的 结果值。|
+| `ref_or_null` | 如同 ref, 但是 MySQL 必须在初次查找的结果 里找出 null 条目,然后进行二次查找。|
+| `index_merge` | 说明索引合并优化被使用了。|
+| `unique_subquery` | 在某些 IN 查询中使用此种类型,而不是常规的 ref:value IN (SELECT primary_key FROM single_table WHERE some_expr)。|
+| `index_subquery` | 在 某 些 IN 查 询 中 使 用 此 种 类 型 , 与 unique_subquery 类似,但是查询的是非唯一 性索引: value IN (SELECT key_column FROM single_table WHERE some_expr)。|
+| `range` | 只检索给定范围的行,使用一个索引来选择 行。key 列显示使用了哪个索引。当使用=、 <>、>、>=、<、<=、IS NULL、<=>、BETWEEN 或者 IN 操作符,用常量比较关键字列时,可 以使用 range。|
+| `index` | 全表扫描,只是扫描表的时候按照索引次序 进行而不是行。主要优点就是避免了排序, 但是开销仍然非常大。|
+| `all` | 最坏的情况,从头到尾全表扫描。|
+
 **extra列返回的描述的意义：**
 
 | 值 | 意义 |
