@@ -3,6 +3,12 @@ layout: post
 title: PHP 数组&&文件操作
 category: php
 ---
+
+```
+博文都是原创  复制请谨慎
+学习记录下
+```
+
 ### 筛选出ip为内网的元素，根据ip合并，count值相加（结果仍存在count内），最后按照count值逆序排序。 
 
 ```

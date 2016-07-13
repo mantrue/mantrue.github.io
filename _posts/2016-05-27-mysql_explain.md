@@ -5,6 +5,11 @@ author: 承鹏辉
 category: mysql
 ---
 
+```
+网上自己复制  修改内容 了解优化过程
+
+```
+
 EXPLAIN显示了MySQL如何使用索引来处理SELECT语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句。
 
 使用方法，在select语句前加上`EXPLAIN`就可以了：
