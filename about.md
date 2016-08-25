@@ -49,7 +49,7 @@ menu: About
 * 我匆忙努力的往前走 不会看一眼回头路
 
 ### 项目经验
-* <a href='http://maidian3.com'>买点啥</a> (网站爬虫类,抓取主流商城商品详情页   附:支持ios客服端)
+* <a href='http://maidian3.youyoule.com/'>买点啥</a> (网站爬虫类,抓取主流商城商品详情页   附:支持ios客服端)
 * 指针导游 (及时通信类仿微信,支持文字,图片,语音聊天,支持websocket协议,tcp协议 附:支持ios客服端)
 * 星企组合 (综合电商类,用户&&订单)
 * <a href='http://www.bjxgmh.com'>企业站</a> (企业展示)
