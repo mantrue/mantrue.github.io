@@ -16,6 +16,7 @@ menu: About
 - 邮箱：penghui219@163.com
 - 主页：[http://penghui.link](http://penghui.link)
 - 微博：[@承鹏辉](http://weibo.com/peen219)
+- QQ：782319392
 
 电子商务专业肄业，{{ current_year | minus: 2012 }} 年在职工作经验，{{ current_year | minus: 2013 }} 年 web 开发经验。
 
@@ -45,7 +46,7 @@ menu: About
 ### 成长经历
 * 2013/06 就职于 亲亲宝贝
 * 2014/09 就职于 [华胜天成](http://www.teamsun.com.cn/)
-* 2015/07 就职于 [寅午伟业](http://www.yinwuweiye.com/)
+* 2015/07 现就职于 保密
 * 我匆忙努力的往前走 不会看一眼回头路
 
 ### 项目经验
