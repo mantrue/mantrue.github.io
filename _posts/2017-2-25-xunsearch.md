@@ -1,6 +1,6 @@
 ---
 layout: post
-title: xunsearch测试
+title: xunsearch全文检索应用
 author: 承鹏辉
 category: php
 ---
