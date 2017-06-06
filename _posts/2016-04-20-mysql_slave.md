@@ -60,7 +60,14 @@ start slave;   MASTER_LOG_FILE和 MASTER_LOG_POS 的值就是刚刚在主库中�
 	关闭mysql      mysqladmin -uroot -P3307 shutdown
 	
 	
+### 个人随笔
 
+```
+安静的等待,你若盛开,蝴蝶自来
+
+承接高质量 网站开发 app开发 如有需要请点击About联系
+
+```
  
 作者
 @承鹏辉
