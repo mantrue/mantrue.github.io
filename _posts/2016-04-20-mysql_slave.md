@@ -60,6 +60,9 @@ start slave;   MASTER_LOG_FILE和 MASTER_LOG_POS 的值就是刚刚在主库中�
 	关闭mysql      mysqladmin -uroot -P3307 shutdown
 	
 	
+	flush tables with read lock;
+	unlock tables;
+	
 ### 个人随笔
 
 ```
