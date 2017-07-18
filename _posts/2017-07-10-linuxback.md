@@ -114,12 +114,14 @@ nohup /usr/bin/rsync.sh &
 
 到这里，所有的都已完成。可以到源服务器下的/home/back目录下建一个文件，然后再看一下目标服务器下的/home/back下是否有
 
-本地同步文件命令
-rsync -a --stats src/one.txt dest
+```
 
+### 本地同步文件命令
+rsync -a --stats src/one.txt dest
 rsync -avzS --partial src dest
 
-```
+### scp远程传输文件
+scp -r /wwwbackup/server/server20170718_000001/* root@115.28.78.221:/home/webjtypt
 
 ### 个人随笔
 
