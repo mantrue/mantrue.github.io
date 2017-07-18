@@ -121,7 +121,7 @@ rsync -a --stats src/one.txt dest
 rsync -avzS --partial src dest
 
 ### scp远程传输文件
-scp -r /wwwbackup/server/server20170718_000001/* root@115.28.78.221:/home/webjtypt
+scp -r /wwwbackup/server/server20170718_000001/&nbsp;&nbsp;root@115.28.78.221:/home/webjtypt
 
 ### 个人随笔
 
