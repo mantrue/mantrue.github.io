@@ -42,14 +42,14 @@ make && make install
 vim /usr/bin/rsync.sh
 
 #!/bin/bash
-host=118.190.65.43
-src=/home/back/
-des=web
-user=root
+host=115.28.78.221 #inotify-slave的ip地址 从服务器ip
+src=/home/wwwroot/web/ #本地监控的目录
+des=web #inotify-slave的rsync服务的模块名
+user=root #inotify-slave的rsync服务的虚拟用户
 /usr/local/inotify/bin/inotifywait -mrq --timefmt '%d/%m/%y %H:%M' --format '%T %w%f%e' -e modify,delete,create,attrib $src \
 | while read files
 do
-/usr/bin/rsync -zrtopg --delete --progress --password-file=/usr/local/rsync/rsync.passwd $src $user@$host::$des
+/usr/bin/rsync -zrtopg --exclude ".svn" --exclude ".log" --delete --progress --password-file=/usr/local/rsync/rsync.passwd $src $user@$host::$des
 echo "${files} was rsynced" > /var/log/rsyncd.log 2>&1
 done
 
@@ -91,12 +91,12 @@ lock file = /var/run/rsync.lock
 log file = /var/log/rsyncd.log
 #log format = %t %a %m %f %b # 脠志录脟录赂帽[web]
 [web]
-path = /home/back
+path = /home/webjtypt #需要备份的目录
 comment = web file
 ignore errors
 read only = no
 write only = no
-hosts allow = 118.190.65.33
+hosts allow = 114.215.106.208 #主服务器ip
 hosts deny = *
 list = false
 uid = root
@@ -110,6 +110,9 @@ secrets file = /usr/local/rsync/rsync.passwd
 
 5、源服务器启动同步：
 
+//直接执行
+/usr/bin/rsync.sh
+守护进程
 nohup /usr/bin/rsync.sh &
 
 到这里，所有的都已完成。可以到源服务器下的/home/back目录下建一个文件，然后再看一下目标服务器下的/home/back下是否有
@@ -119,6 +122,10 @@ nohup /usr/bin/rsync.sh &
 ### 本地同步文件命令
 rsync -a --stats src/one.txt dest
 rsync -avzS --partial src dest
+
+远程
+rsync -auqz /home/wwwroot/server/ 115.28.78.221:/home/webjtypt/
+ 
 
 ### scp远程传输文件
 scp -r /wwwbackup/server/server20170718_000001/&nbsp;&nbsp;root@115.28.78.221:/home/webjtypt
