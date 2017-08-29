@@ -6,7 +6,7 @@ category: php
 ---
 
 ```
-并发执行，一秒完毕
+原创 并发执行，一秒完毕
 
 ```
 
@@ -164,6 +164,7 @@ function sendCurl ( $url ) {
     return $output;
 }
 
+1秒完毕 下载松松的 发散下思维，接下来实现一个多进程基于redis的队列
 
 ```
 
