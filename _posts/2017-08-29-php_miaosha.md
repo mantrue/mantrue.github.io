@@ -56,7 +56,7 @@ for ($i = 0; $i < $totals; $i++) {
                         $sql="INSERT INTO bb (xx, yy) VALUES ('$res','$cpid')";   
                         mysql_query($sql, $conn);
                 }
-                sleep(1);
+            
         }
 
         exit($i);
@@ -71,10 +71,23 @@ for ($i = 0; $i < $totals; $i++) {
 	$redis = new \Redis();
     $redis->connect('127.0.0.1',6378);
     $redis->auth('xxxx');
-	$redis->rpush('demolist','hello');
+	
+	for ($i=0; $i < 2000; $i++) { 
+		
+		$len = $redis->lLen('demolist');
+		if ($len>100) {
+			echo "秒杀失败";
+		} else {
+			$redis->rpush('demolist','hello');
+		}
+	}	
 
 	
 php add.php 然后自动同步到队列 同步到mysql
+
+这个秒杀客户端模拟不是并行的，阻塞的 
+但是也能看到redis瞬间执行完毕
+而mysql正慢慢的在同步
 
 ```
 
