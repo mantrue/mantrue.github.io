@@ -10,8 +10,8 @@ category: php
 
 ```
 
-###Sphinx：SQL Phrase Index  基于SQL的全文检索引擎
-####主要特性：
+### Sphinx：SQL Phrase Index  基于SQL的全文检索引擎
+#### 主要特性：
 + 高速建立索引（10MB/sec）
 + 快速搜索（在2到4G的文本中只需0.1秒） 
 + 可扩展（可达100G文本，10亿个文档）
@@ -24,7 +24,7 @@ category: php
 + 支持任何数量的文档字段
 + 支持不同的搜索模式（继承匹配，全部匹配，词语匹配，匹配任意）
 
-####下载安装
+#### 下载安装
 以下都是基于Linux Ubuntu发行版环境下的操作。  
 
     wget http://sphinxsearch.com/files/sphinx-2.0.7-release.tar.gz
@@ -38,8 +38,9 @@ category: php
 --with-mysql=/path：Sphinx会自动检测MySQL的库文件，如果没有找到，你可以制定路径  
 --with-pgsql=/path：同上  
 安装时出现MySQL相关错误参考：http://stackoverflow.com/questions/3095040/help-setting-up-sphinx  
-如果需要支持中文检索，建议参考下面这段  
-####基于Sphinx检索引擎的coorseek安装配置（适用于中文环境）
+如果需要支持中文检索，建议参考下面这段
+  
+#### 基于Sphinx检索引擎的coorseek安装配置（适用于中文环境）
 
 1. 下载地址：[coreseek4.1](http://www.coreseek.cn/uploads/csft/4.0/coreseek-4.1-beta.tar.gz)
 2. 预安装包：
@@ -63,7 +64,7 @@ category: php
         make
         make install
 
-####快速了解
+#### 快速了解
 安装完后，在安装目录（/usr/local/sphinx）用`tree`命令可以看到如下目录结构，就代表安装成功了。  
 
     root@60:/usr/local/sphinx# tree
@@ -93,7 +94,7 @@ bin目录存放二进制执行文件
 etc目录存放配置文件  
 var目录存放索引数据和搜索日志  
 
-#####sphinx工作流概览
+##### sphinx工作流概览
 ![dataflow](../../resource/image/dataflow.png)
 由四个主要的组件构成：  
 **数据源** 是真正存储数据的地方，比如MySQL  
@@ -109,17 +110,17 @@ var目录存放索引数据和搜索日志
     SELECT * FROM posts WHERE MATCH (description) AGAINST('beautiful programming');
 返回结果会根据相关度排序，这比使用LIKE语句速度要快不少。
 
-####全文检索的优点
+#### 全文检索的优点
 + 相比传统搜索更快，它的优势来自于通过单词的索引查询记录取代全表扫描  
 + 查询结果可以根据相关度排序  
 + 在上百万条数据的数据库中性能表现非常好  
 + 他能跳过一些通用的词如：an for the 等等   
 
-####Sphinx的主要组件
+#### Sphinx的主要组件
 **indexer**：indexer用来建立或者重新建立全文本索引，默认情况Sphinx读取/usr/local/sphinx/etc/sphinx.conf配置文件。  
 **searchd**：它是用来搜索索引的进程，需要客户端访问Sphinx API。  
 
-####Sphinx简单实战
+#### Sphinx简单实战
 
 1. 创建数据库,执行脚本  
 
@@ -186,7 +187,7 @@ var目录存放索引数据和搜索日志
 
     /usr/local/sphinx/bin/searchd
 
-####简单介绍Sphinx配置文件
+#### 简单介绍Sphinx配置文件
 配置文件分成如下几部分：  
 + **source**：创建索引时需要用到的数据源  
 
@@ -215,7 +216,7 @@ sql_query_pre： 执行sql_query前的查询，可以有多个，按照配置文
 sql_attr：属性，属性是附加在每个文档上的额外信息，可以在搜索的时候用于过滤和排序。下面会有详细介绍属性  
 sql_query_info：用来获取和显示文档信息，命令行搜索时用，而且仅用于调试目的  
 
-####属性
+#### 属性
 搜索除了根据文档的匹配度和相关度排序外，还经常会根据其它方式对结果进行额外处理，如：用户需要对新闻检索结果依次按日期和相关度排序，或者将检索结果按月分组，Sphinx的 **属性** 就能完成上述任务。  
 属性于字段不一样，它不会被全文检索，仅仅是存储在索引中。属性可以用于过滤，或者限制返回的数据，以及排序、分组。  
 
@@ -286,7 +287,7 @@ charset_type：设置文档的编码，可以为sbcs（single-byte）和UTF-8
 
 如果searchd进程启动了，那么先关闭它。或者 使用在indexer后面加参数`--rotate`，但是该参数在Windows环境下(2.1.1)的版本下不起作用
 
-####使用Sphinx全文检索的好处
+#### 使用Sphinx全文检索的好处
 + 快速建立索引，比MySQL的全文检索快上50到100倍，比其他全文检索快4到10倍
 + 更高的检索速度
 + 相关性
@@ -304,11 +305,11 @@ Sphinx的作者Andrew Aksyonoff 在5GB文本，3百50万条记录中做的性能
     Match bool top-20, ms/q  24          29          13
     -------------------------------------------------------
 
-####Indexing
+#### Indexing
 索引在Sphinx中是最重要的组件之一。  
 #####什么数据库索引
 在数据库中，用于提高数据库表访问速度的数据库对象，虽然索引可以提高查询速度，但是它会导致数据库系统更新数据的性能下降，因为更新数据的时候同时要更新索引。  
-#####sphinx中的索引
+##### sphinx中的索引
 Sphinx中的索引与数据库索引有所区别，sphinx中的索引数据是结构化 **文档** 的集合，每个文档是字段（field）的集合。一行代表一个文档，每一列代表一个字段。索引还可以包含属性（attributes）用于过滤、排序、分组，这些属性不会被全文检索，仅仅是被存储在索引中。  
 
 举例：论坛帖子表中帖子的标题和内容这两个字段需要全文检索，但是检索结果需要限制在某个特定的作者，或者按照post_date对结果排序，实现这个功能可以将出了标题和内容的各列作为属性来做索引，之后使用API调用设置过滤、排序等操作。  
@@ -386,7 +387,7 @@ sphinx.conf片段：
 
     indexer --merge des_index src_index [--rotate]
 src_index将被合并到des_index中去，如果des_index已经用于searrchd提供服务，则必须加参数--rotate。
-####多值属性
+#### 多值属性
 定义的格式如下：  
     
     sql_attr_multi = unit tag_id from query;\
@@ -444,22 +445,22 @@ http://davidx.me/2010/10/31/understanding-sphinx/
 找数据--> 建索引-->提供服务
 
 
-####数据源
+#### 数据源
 索引的数据可以来自：SQL数据库，纯文本，HTML文本等等，数据数据一个结构化的**文档**集合，一行就代表一个文档，每一列代表字段.  
 
-####属性
+#### 属性
 属性是附加在每个文档上的额外信息，在搜索时可以用于过滤和排序，属性不会被全文索引，只是被存储在索引中，对属性检索时会报错。  
 
 各个文档全部属性信息构成了一个集合，被称为文档信息，docinfo,他又两种存储方式  ：
 1. 与全文索引数据分开存储（“外部存储，在.spa文件中存储） 
 2. 在全文索引数据中，每出现一次文档Id，就出现相应的文档信息，（内联存储，在.spd文件中存储）
 
-####MVA（多值属性）
+#### MVA（多值属性）
 对文章的tags，产品类型非常重要，他是文档属性的一中特例，他可以向文档附加一系列值作为属性。  他支持过滤和分组（不支持分组排序）
 
 MVA列表项的值被限制为32位无符号整数，列表的长度不受限制，只有有足够的RAM
 
-###索引
+### 索引
 
 所有文档的ID必须是唯一的无符号非零整数，
 
@@ -474,7 +475,7 @@ MVA列表项的值被限制为32位无符号整数，列表的长度不受限制
 执行后索引查询，以便完成最终的清理工作
 再次关闭到数据库的连接
 
-###区段查询
+### 区段查询
 从数据库中取出文档ID的最小值和最大值，将最大值和最小值定义自然数区间分成若干份，一次获取数据，建立索引。
 
 可以使用”主索引+增量索引‘模式来实现“近实时”的索引更新  
@@ -516,7 +517,7 @@ index 'test1':search error: .
 解决的办法是：search -i test1 -q  'test'：指定具体的index
 
 
-####索引合并：  
+#### 索引合并：  
 
     indexer --merge DST_INDEX SRC_INDEX [--ratate]
 
@@ -527,7 +528,7 @@ SPH_SORT_TIME_SEGMENTS 这种排序模式在windows平台好像不生效，搜�
 
 [中文分词核心配置](http://www.coreseek.cn/products-install/coreseek_mmseg/)
 
-####搜索c++,.net 等关键字时：
+#### 搜索c++,.net 等关键字时：
 在index中配置
 
     exceptions:   /path/to/exception.txt
@@ -563,7 +564,7 @@ exception.txt:
 =================================
 sphinx-coreseek 优化指南
 =================================
-####html_strip：HTML标记清除
+#### html_strip：HTML标记清除
 
 只保留标记之间的内容，HTML标签和HTML注释会被删除。比如:  
 
@@ -580,7 +581,7 @@ sphinx-coreseek 优化指南
 这个embed标签里面有一个链接包含php的字符。我们设置html_strip=1，再来看结果就只有一条记录了。  
  ![search_html1](../../resource/image/html_search1.png)
 
-####exceptions：
+#### exceptions：
 在搜索c++、c#等词的时候，包含c的内容都搜索出来了，显然这不是我们想要的，exceptions的功能就是将一个或多个Token映射成一个单独的关键字，与wordforms类似，但是也有很多不同的地方。  
 
 ![exception](../../resource/image/exceptions0.png)
@@ -605,7 +606,7 @@ sphinx-coreseek 优化指南
 
 你妹的，exception和wordform还相互影响   
 
-####wordforms：词形字典
+#### wordforms：词形字典
 
     wordforms = /usr/local/sphinx/data/wordforms.txt
 
@@ -620,7 +621,7 @@ sphinx-coreseek 优化指南
      zhang san > 张三
 查询chang san 的时候，只匹配张，就是说只要是含有“张”字的都匹配，无论是张三还是张四。  
 
-####一元切分模式
+#### 一元切分模式
 有时候使用一元切分模式，反而降低的搜索的准确率。比如我在搜索”小小“时，使用一元分词后，凡是含有”小“字的内容都被搜索出来了。显然不是我们想要的。  
 ![yiyuan0.png](../../resource/image/yiyuan.png)  
 
@@ -628,19 +629,19 @@ sphinx-coreseek 优化指南
 
 
 
-####sphnix的匹配模式
+#### sphnix的匹配模式
 * SPH_MATCH_ALL:匹配所有查询此，这是sphinx的默认模式，比如搜索：“中国"，那么只有文档中同时出现”中国“二字时才会匹配，当然“中国”可以不出现在一块.  
 * SPH_MATCH_ANY:匹配任意一个  
 * SPH_MATCH_PHRASE
 
 
 
-####数据源的一些限制条件
+#### 数据源的一些限制条件
 
 document 的 id 必须是唯一的无符号的非0的整数，直白点就是要大于0的整数，至于是32位还是64位的根据自己的喜好设定。我们的线上环境就有一个id为-1的数据，搜不出来，该主键是非常麻烦的，所以在新建数据的时候就要特别注意。  
 
 
-####BuildExcerpts产生文本摘要和高亮
+#### BuildExcerpts产生文本摘要和高亮
 
     function BuildExcerpts ( $docs, $index, $words, $opts=array() )
 
