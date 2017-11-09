@@ -40,6 +40,7 @@ menu: About
 | Linux | ★★★★☆ |
 | Shell(bash) | ★★☆☆☆ |
 | Markdown | ★★☆☆☆ |
+| GO | ★★☆☆☆ |
 
 
 
