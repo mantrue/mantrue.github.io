@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  努力这个词真的太沉重
+title:  go简单文件上传
 author: 承鹏辉
 category: go
 ---
@@ -16,6 +16,7 @@ go很简洁，像php一样好学
 
 ### 正文
 
+```
 package main 
 import (
 	"io"
