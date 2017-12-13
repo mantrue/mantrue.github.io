@@ -19,7 +19,6 @@ Nginx升级https
 
 如果要启用HTTPS，我们就需要从证书授权机构(以下简称CA) 处获取一个证书，Let's Encrypt 就是一个 CA。
 我们可以从 Let's Encrypt 获得网站域名的免费的证书。
-这篇文章也主要讲的是通过 Let's Encrypt + Nginx 来让网站升级到HTTPS。
 
 ```
 
@@ -28,8 +27,7 @@ Nginx升级https
 ```
 
 Certbot 是Let's Encrypt官方推荐的获取证书的客户端，可以帮我们获取免费的Let's Encrypt 证书。
-Certbot 是支持所有 Unix 内核的操作系统的，个人博客的服务器系统是CentOS 7
-这篇教程也是通过在个人博客上启用HTTPS的基础上完成的。
+Certbot 是支持所有 Unix 内核的操作系统的，服务器系统是CentOS 7
 
 ```
 
