@@ -2,7 +2,7 @@
 layout: post
 title:  Nginx升级https
 author: 承鹏辉
-category: go
+category: nginx
 ---
 
 ```
