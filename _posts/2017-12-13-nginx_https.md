@@ -6,7 +6,7 @@ category: nginx
 ---
 
 ```
-转载加实际操作 以为服务器成功升级为https
+转载加实际操作 已为服务器成功升级为https
 Let's Encrypt 使用教程，免费的SSL证书，让你的网站拥抱 HTTPS
 Nginx升级https
 配置下免费的
@@ -30,6 +30,19 @@ Nginx升级https
 
 Certbot 是Let's Encrypt官方推荐的获取证书的客户端，可以帮我们获取免费的Let's Encrypt 证书。
 Certbot 是支持所有 Unix 内核的操作系统的，服务器系统是CentOS 7
+
+安装Certbot
+
+Certbot是EFF开发的一个简单的工具，比起我之前研究的时候弄的ACME要简单得多，访问https://certbot.eff.org/ 之后，选择你的服务器（webserver）和操作系统（Operating System），就会给出简单的步骤了，我们还是一步一步来吧。
+
+我的服务器是Nginx，操作系统是Ubuntu 16.04。由于自带了软件包，安装只需要一行命令即可：
+
+sudo apt-get install letsencrypt
+如果是其他版本的Ubuntu，只需要下载一个脚本就行了（下面的命令在需要下载到的目录里执行）：
+
+wget https://dl.eff.org/certbot-auto
+chmod a+x certbot-auto
+./certbot-auto
 
 ```
 

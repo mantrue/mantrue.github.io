@@ -124,7 +124,7 @@ rsync -a --stats src/one.txt dest
 rsync -avzS --partial src dest
 
 远程
-rsync -auqz /home/wwwroot/server/ 115.28.78.221:/home/webjtypt/
+rsync -auqz --delete  /home/wwwroot/server/ x.x.x.x:/home/webjtypt/
  
 
 ### scp远程传输文件
