@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  go基于文本实现简单留言板
+title:  go基于文本和beego框架实现简单留言板
 author: 承鹏辉
 category: go
 ---
