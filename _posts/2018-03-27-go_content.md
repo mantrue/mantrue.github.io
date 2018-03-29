@@ -188,6 +188,185 @@ func list() {
 }
 
 
+
+
+
+
+
+
+增删改beego代码
+
+package controllers
+
+import (
+	"fmt"
+
+	"strconv"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
+	"github.com/astaxie/beego/validation"
+	_ "github.com/go-sql-driver/mysql"
+)
+
+var valid validation.Validation
+
+func init() {
+	orm.RegisterDataBase("default", "mysql", "xxx:xxx@tcp(127.0.0.1:3306)/666?charset=utf8")
+
+	orm.RegisterModel(new(User))
+	orm.RunSyncdb("default", false, false)
+
+}
+
+type MainController struct {
+	beego.Controller
+}
+
+func (c *MainController) Get() {
+	c.Ctx.WriteString("Hello")
+}
+
+func (c *MainController) GetUserList() {
+
+	pagesize := beego.AppConfig.String("pagesize")
+	fmt.Println(pagesize)
+
+	page := c.GetString("page")
+	name := c.GetString("name")
+
+	var where string = "id >0"
+
+	if name != "" {
+		where += " and name = " + "'" + name + "'"
+	}
+
+	PageInt, _ := strconv.Atoi(page)
+
+	if PageInt <= 0 {
+		PageInt = 1
+	}
+
+	var userList []User
+	qb, _ := orm.NewQueryBuilder("mysql")
+	qb.Select("id,name,age,author").From("user").Where(where).OrderBy("id").Desc().Limit(3).Offset((PageInt - 1) * 3)
+
+	sql := qb.String()
+
+	o := orm.NewOrm()
+
+	_, err := o.Raw(sql).QueryRows(&userList)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if len(userList) == 0 {
+		userList = []User{}
+	}
+	em := ErrorJson{Status: 200, Message: "成功", Data: userList}
+	c.Data["json"] = em
+	c.ServeJSON()
+
+}
+
+func (c *MainController) GetUser() {
+	log := logs.NewLogger(10)
+	log.SetLogger("file", `{"filename":"test.log"}`)
+	log.Warning("info", "error run...")
+
+	id := c.GetString("id")
+
+	setId, _ := strconv.Atoi(id)
+
+	valid = validation.Validation{}
+	valid.Required(id, "id").Message("id不可以为空")
+	valid.Numeric(id, "id").Message("必须是整数")
+	valid.Min(setId, 0, "id").Message("id必须大于0")
+
+	if valid.HasErrors() {
+		for _, err := range valid.Errors {
+			em := ErrorJson{Status: 500, Message: err.Message, Data: ""}
+			c.Data["json"] = em
+			c.ServeJSON()
+			return
+		}
+	}
+
+	var userList User
+	qb, _ := orm.NewQueryBuilder("mysql")
+	qb.Select("id,name,age,author").From("user").Where("id=" + id).OrderBy("id").Desc().Limit(1).Offset(0)
+	sql := qb.String()
+
+	o := orm.NewOrm()
+	err := o.Raw(sql).QueryRow(&userList)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if userList.Id == 0 {
+		em := ErrorJson{Status: 200, Message: "成功", Data: ""}
+		c.Data["json"] = em
+	} else {
+		em := ErrorJson{Status: 200, Message: "成功", Data: userList}
+		c.Data["json"] = em
+	}
+
+	c.ServeJSON()
+
+}
+
+func (c *MainController) CreateMain() {
+
+	u := User{}
+
+	if err := c.ParseForm(&u); err != nil {
+		fmt.Println(err)
+	}
+
+	valid = validation.Validation{}
+
+	b, err := valid.Valid(&u)
+
+	if err != nil {
+		fmt.Println(b)
+	}
+	if !b {
+		for _, err := range valid.Errors {
+			em := ErrorJson{Status: 500, Message: err.Message, Data: ""}
+			c.Data["json"] = em
+			c.ServeJSON()
+			return
+		}
+	} else {
+		o := orm.NewOrm()
+
+		id, err := o.Insert(&u)
+
+		if err != nil {
+			em := ErrorJson{Status: 500, Message: "添加失败", Data: ""}
+			c.Data["json"] = em
+			c.ServeJSON()
+		}
+
+		if id > 0 {
+
+			em := ErrorJson{Status: 200, Message: "添加成功", Data: &u}
+			c.Data["json"] = em
+			c.ServeJSON()
+
+		} else {
+
+			em := ErrorJson{Status: 500, Message: "添加失败", Data: ""}
+			c.Data["json"] = em
+			c.ServeJSON()
+		}
+	}
+
+}
+
+
 ```
 
 
