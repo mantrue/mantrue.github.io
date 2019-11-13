@@ -6,7 +6,7 @@ category: php
 ---
 
 ```
-redis 订阅 发布聊天
+socket文件上传
 
 ```
 
