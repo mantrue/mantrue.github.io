@@ -1,6 +1,6 @@
 ---
 layout: post
-title: golang MQTT
+title: golang MQTT 硬件通信
 author: 承鹏辉
 category: php
 ---

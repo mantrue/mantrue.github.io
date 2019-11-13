@@ -1,6 +1,6 @@
 ---
 layout: post
-title: golang文件上传
+title: golang  socket文件上传 php读取发送
 author: 承鹏辉
 category: php
 ---

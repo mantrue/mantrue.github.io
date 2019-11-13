@@ -1,6 +1,6 @@
 ---
 layout: post
-title: redis聊天
+title: redis 聊天版 不可用，并发异常
 author: 承鹏辉
 category: php
 ---
