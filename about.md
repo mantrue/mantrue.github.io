@@ -14,7 +14,7 @@ menu: About
 ## 概况
 
 - 邮箱：penghui219@163.com
-- 主页：[http://penghui.link](http://penghui.link)
+- 主页：[http://penghui.link](http://www.penghui.live)
 - 微博：[@承鹏辉](http://weibo.com/peen219)
 - QQ：782319392
 
@@ -47,9 +47,12 @@ menu: About
 ### 成长经历
 * 2013/06 就职于 [华胜天成](http://www.teamsun.com.cn/)
 * 2015/07 就职于 北京寅午伟业科技有限公司
+* 2015/07 就职于 北京育学林(K12)
 * 我匆忙努力的往前走 不会看一眼回头路
 
 ### 项目经验
+* <a href='http://www.jingbanyun.com'>京版云</a> (企业展示)
+* <a href='http://kongzi.chinesecio.com/'>孔院</a> (企业展示)
 * <a href='http://maidian3.youyoule.com/'>买点啥</a> (网站爬虫类,抓取主流商城商品详情页   附:支持ios客服端)
 * 指针导游 (及时通信类仿微信,支持文字,图片,语音聊天,支持websocket协议,tcp协议 附:支持ios客服端)
 * 星企组合 (综合电商类,用户&&订单)
