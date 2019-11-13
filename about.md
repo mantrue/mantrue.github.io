@@ -14,7 +14,7 @@ menu: About
 ## 概况
 
 - 邮箱：penghui219@163.com
-- 主页：[http://penghui.link](http://www.penghui.live)
+- 主页：[http://www.penghui.live](http://www.penghui.live)
 - 微博：[@承鹏辉](http://weibo.com/peen219)
 - QQ：782319392
 
@@ -40,7 +40,7 @@ menu: About
 | Linux | ★★★★☆ |
 | Shell(bash) | ★★☆☆☆ |
 | Markdown | ★★☆☆☆ |
-| GO | ★★☆☆☆ |
+| GO | ★★★★☆ |
 
 
 
