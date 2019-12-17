@@ -52,7 +52,7 @@ menu: About
 
 ### 项目经验
 * <a href='http://www.jingbanyun.com'>京版云</a> (企业展示)
-* <a href='http://kongzi.chinesecio.com/'>孔院</a> (企业展示)
+* <a href='http://admin.cicu.chinesecio.com'>孔院</a> (企业展示 vue+tp5前后端分离)
 * <a href='http://maidian3.youyoule.com/'>买点啥</a> (网站爬虫类,抓取主流商城商品详情页   附:支持ios客服端)
 * 指针导游 (及时通信类仿微信,支持文字,图片,语音聊天,支持websocket协议,tcp协议 附:支持ios客服端)
 * 星企组合 (综合电商类,用户&&订单)
