@@ -1,0 +1,34 @@
+#!/bin/sh
+
+cpNameList=()
+
+for line in $(cat /data/html/www/etomiddleware/app/Console/ScriptMonitor/monitor_script_list.txt)
+do
+    ppLen=${#cpNameList[@]}
+    cpNameList[$ppLen]="${line}"
+done
+
+len=${#cpNameList[@]}
+
+if [ $len -lt 1 ]
+then
+     echo '脚本 /data/html/www/etomiddleware/app/Console/ScriptMonitor/monitor_script_list.txt 中没有待检测脚本名字'
+     exit
+fi
+
+exec_php="nohup /usr/local/php/bin/php /data/html/www/etomiddleware/artisan"
+
+#while [ true ]
+#do
+
+    for cp in ${cpNameList[@]}
+    do
+        pro=$(ps -ef | grep "${cp}" | grep -v grep | grep -v "$0")
+        if [ -z "$pro" ]
+        then
+             ${exec_php} ${cp} &
+        fi
+    done
+
+#    sleep 5
+#done
