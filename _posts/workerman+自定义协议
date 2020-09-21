@@ -1,0 +1,446 @@
+workerman自定义协议
+
+如何定制协议
+实际上制定自己的协议是比较简单的事情。简单的协议一般包含两部分:
+
+区分数据边界的标识
+数据格式定义
+一个例子
+协议定义
+例如区分数据边界的标识为换行符"\n"（注意请求数据本身内部不能包含换行符），数据格式为Json，例如下面是一个符合这个规则的请求包。
+
+{"type":"message","content":"hello"}
+
+注意上面的请求数据末尾有一个换行字符(在PHP中用双引号字符串"\n"表示)，代表一个请求的结束。
+
+实现步骤
+在WorkerMan中如果要实现上面的协议，假设协议的名字叫JsonNL，所在项目为MyApp，则需要以下步骤
+
+1、协议文件放到项目的Protocols文件夹，例如文件MyApp/Protocols/JsonNL.php
+
+2、实现JsonNL类，以namespace Protocols;为命名空间，必须实现三个静态方法分别为 input、encode、decode
+
+具体实现
+MyApp/Protocols/JsonNL.php的实现
+
+namespace Protocols;
+class JsonNL
+{
+    /**
+     * 检查包的完整性
+     * 如果能够得到包长，则返回包的在buffer中的长度，否则返回0继续等待数据
+     * 如果协议有问题，则可以返回false，当前客户端连接会因此断开
+     * @param string $buffer
+     * @return int
+     */
+    public static function input($buffer)
+    {
+        // 获得换行字符"\n"位置
+        $pos = strpos($buffer, "\n");
+        // 没有换行符，无法得知包长，返回0继续等待数据
+        if($pos === false)
+        {
+            return 0;
+        }
+        // 有换行符，返回当前包长（包含换行符）
+        return $pos+1;
+    }
+ 
+    /**
+     * 打包，当向客户端发送数据的时候会自动调用
+     * @param string $buffer
+     * @return string
+     */
+    public static function encode($buffer)
+    {
+        // json序列化，并加上换行符作为请求结束的标记
+        return json_encode($buffer)."\n";
+    }
+ 
+    /**
+     * 解包，当接收到的数据字节数等于input返回的值（大于0的值）自动调用
+     * 并传递给onMessage回调函数的$data参数
+     * @param string $buffer
+     * @return string
+     */
+    public static function decode($buffer)
+    {
+        // 去掉换行，还原成数组
+        return json_decode(trim($buffer), true);
+    }
+}
+
+至此，JsonNL协议实现完毕，可以在MyApp项目中使用，使用方法例如下面
+
+文件：MyApp\start.php
+
+use Workerman\Worker;
+require_once '/your/path/Workerman/Autoloader.php'
+$json_worker = new Worker('JsonNL://0.0.0.0:1234');
+$json_worker->onMessage = ...
+
+
+
+协议接口说明
+在WorkerMan中开发的协议类必须实现三个静态方法，input、encode、decode，协议接口说明见Workerman/Protocols/ProtocolInterface.php，定义如下：
+
+
+namespace Workerman\Protocols;
+ 
+use \Workerman\Connection\ConnectionInterface;
+ 
+/**
+ * Protocol interface
+* @author walkor <walkor@workerman.net>
+ */
+interface ProtocolInterface
+{
+    /**
+     * 用于在接收到的recv_buffer中分包
+     *
+     * 如果可以在$recv_buffer中得到请求包的长度则返回整个包的长度
+     * 否则返回0，表示需要更多的数据才能得到当前请求包的长度
+     * 如果返回false或者负数，则代表错误的请求，则连接会断开
+     *
+     * @param ConnectionInterface $connection
+     * @param string $recv_buffer
+     * @return int|false
+     */
+    public static function input($recv_buffer, ConnectionInterface $connection);
+ 
+    /**
+     * 用于请求解包
+     *
+     * input返回值大于0，并且WorkerMan收到了足够的数据，则自动调用decode
+     * 然后触发onMessage回调，并将decode解码后的数据传递给onMessage回调的第二个参数
+     * 也就是说当收到完整的客户端请求时，会自动调用decode解码，无需业务代码中手动调用
+     * @param ConnectionInterface $connection
+     * @param string $recv_buffer
+     */
+    public static function decode($recv_buffer, ConnectionInterface $connection);
+ 
+    /**
+     * 用于请求打包
+     *
+     * 当需要向客户端发送数据即调用$connection->send($data);时
+     * 会自动把$data用encode打包一次，变成符合协议的数据格式，然后再发送给客户端
+     * 也就是说发送给客户端的数据会自动encode打包，无需业务代码中手动调用
+     * @param ConnectionInterface $connection
+     * @param mixed $data
+     */
+    public static function encode($data, ConnectionInterface $connection);
+}
+
+一些例子
+例子一
+协议定义
+首部固定10个字节长度用来保存整个数据包长度，位数不够补0
+数据格式为xml
+
+数据包样本
+
+0000000121<?xml version="1.0" encoding="ISO-8859-1"?>
+<request>
+    <module>user</module>
+    <action>getInfo</action>
+</request>
+其中0000000121代表整个数据包长度，后面紧跟xml数据格式的包体内容
+
+协议实现
+
+namespace Protocols;
+class XmlProtocol
+{
+    public static function input($recv_buffer)
+    {
+        if(strlen($recv_buffer) < 10)
+        {
+            // 不够10字节，返回0继续等待数据
+            return 0;
+        }
+        // 返回包长，包长包含 头部数据长度+包体长度
+        $total_len = base_convert($recv_buffer, 10, 10);
+        return $total_len;
+    }
+ 
+    public static function decode($recv_buffer)
+    {
+        // 请求包体
+        $body = substr($recv_buffer, 10);
+        return simplexml_load_string($body);
+    }
+ 
+    public static function encode($xml_string)
+    {
+        // 包体+包头的长度
+        $total_length = strlen($xml_string)+10;
+        // 长度部分凑足10字节，位数不够补0
+        $total_length_str = str_pad($total_length, 10, '0', STR_PAD_LEFT);
+        // 返回数据
+        return $total_length_str . $xml_string;
+    }
+}
+
+例子二
+
+协议定义
+首部4字节网络字节序unsigned int，标记整个包的长度
+数据部分为Json字符串
+
+数据包样本
+****{"type":"message","content":"hello all"}
+其中首部四字节*号代表一个网络字节序的unsigned int数据，为不可见字符，紧接着是Json的数据格式的包体数据
+
+协议实现
+namespace Protocols;
+class JsonInt
+{
+    public static function input($recv_buffer)
+    {
+        // 接收到的数据还不够4字节，无法得知包的长度，返回0继续等待数据
+        if(strlen($recv_buffer)<4)
+        {
+            return 0;
+        }
+        // 利用unpack函数将首部4字节转换成数字，首部4字节即为整个数据包长度
+        $unpack_data = unpack('Ntotal_length', $recv_buffer);
+        return $unpack_data['total_length'];
+    }
+ 
+    public static function decode($recv_buffer)
+    {
+        // 去掉首部4字节，得到包体Json数据
+        $body_json_str = substr($recv_buffer, 4);
+        // json解码
+        return json_decode($body_json_str, true);
+    }
+ 
+    public static function encode($data)
+    {
+        // Json编码得到包体
+        $body_json_str = json_encode($data);
+        // 计算整个包的长度，首部4字节+包体字节数
+        $total_length = 4 + strlen($body_json_str);
+        // 返回打包的数据
+        return pack('N',$total_length) . $body_json_str;
+    }
+}
+
+例子三（使用二进制协议上传文件）
+协议样本
+ *****logo.png****************** 
+ 其中首部四字节*号代表一个网络字节序的unsigned int数据，为不可见字符，第5个*是用一个字节存储文件名长度，紧接着是文件名，接着是原始的二进制文件数据
+ 
+ 协议实现
+ 
+ namespace Protocols;
+class BinaryTransfer
+{
+    // 协议头长度
+    const PACKAGE_HEAD_LEN = 5;
+ 
+    public static function input($recv_buffer)
+    {
+        // 如果不够一个协议头的长度，则继续等待
+        if(strlen($recv_buffer) < self::PACKAGE_HEAD_LEN)
+        {
+            return 0;
+        }
+        // 解包
+        $package_data = unpack('Ntotal_len/Cname_len', $recv_buffer);
+        // 返回包长
+        return $package_data['total_len'];
+    }
+ 
+ 
+    public static function decode($recv_buffer)
+    {
+        // 解包
+        $package_data = unpack('Ntotal_len/Cname_len', $recv_buffer);
+        // 文件名长度
+        $name_len = $package_data['name_len'];
+        // 从数据流中截取出文件名
+        $file_name = substr($recv_buffer, self::PACKAGE_HEAD_LEN, $name_len);
+        // 从数据流中截取出文件二进制数据
+        $file_data = substr($recv_buffer, self::PACKAGE_HEAD_LEN + $name_len);
+         return array(
+             'file_name' => $file_name,
+             'file_data' => $file_data,
+         );
+    }
+ 
+    public static function encode($data)
+    {
+        // 可以根据自己的需要编码发送给客户端的数据，这里只是当做文本原样返回
+        return $data;
+    }
+}
+
+服务端协议使用示例
+
+use Workerman\Worker;
+require_once '/your/path/Workerman/Autoloader.php'
+ 
+$worker = new Worker('BinaryTransfer://0.0.0.0:8333');
+// 保存文件到tmp下
+$worker->onMessage = function($connection, $data)
+{
+    $save_path = '/tmp/'.$data['file_name'];
+    file_put_contents($save_path, $data['file_data']);
+    $connection->send("upload success. save path $save_path");
+};
+ 
+Worker::runAll();
+
+客户端文件 client.php （这里用php模拟客户端上传）
+
+
+<?php
+/** 上传文件客户端 **/
+// 上传地址
+$address = "127.0.0.1:8333";
+// 检查上传文件路径参数
+if(!isset($argv[1]))
+{
+   exit("use php client.php \$file_path\n");
+}
+// 上传文件路径
+$file_to_transfer = trim($argv[1]);
+// 上传的文件本地不存在
+if(!is_file($file_to_transfer))
+{
+    exit("$file_to_transfer not exist\n");
+}
+// 建立socket连接
+$client = stream_socket_client($address, $errno, $errmsg);
+if(!$client)
+{
+    exit("$errmsg\n");
+}
+// 设置成阻塞
+stream_set_blocking($client, 1);
+// 文件名
+$file_name = basename($file_to_transfer);
+// 文件名长度
+$name_len = strlen($file_name);
+// 文件二进制数据
+$file_data = file_get_contents($file_to_transfer);
+// 协议头长度 4字节包长+1字节文件名长度
+$PACKAGE_HEAD_LEN = 5;
+// 协议包
+$package = pack('NC', $PACKAGE_HEAD_LEN  + strlen($file_name) + strlen($file_data), $name_len) . $file_name . $file_data;
+// 执行上传
+fwrite($client, $package);
+// 打印结果
+echo fread($client, 8192),"\n";
+
+例子四（使用文本协议上传文件）
+
+协议定义
+json+换行，json中包含了文件名以及base64_encode编码（会增大1/3的体积）的文件数据
+
+协议样本
+{"file_name":"logo.png","file_data":"PD9waHAKLyo......"}\n
+
+注意末尾为一个换行符，在PHP中用双引号字符"\n"标识
+
+协议实现
+
+
+namespace Protocols;
+class TextTransfer
+{
+    public static function input($recv_buffer)
+    {
+        $recv_len = strlen($recv_buffer);
+        if($recv_buffer[$recv_len-1] !== "\n")
+        {
+            return 0;
+        }
+        return strlen($recv_buffer);
+    }
+ 
+    public static function decode($recv_buffer)
+    {
+        // 解包
+        $package_data = json_decode(trim($recv_buffer), true);
+        // 取出文件名
+        $file_name = $package_data['file_name'];
+        // 取出base64_encode后的文件数据
+        $file_data = $package_data['file_data'];
+        // base64_decode还原回原来的二进制文件数据
+        $file_data = base64_decode($file_data);
+        // 返回数据
+        return array(
+             'file_name' => $file_name,
+             'file_data' => $file_data,
+         );
+    }
+ 
+    public static function encode($data)
+    {
+        // 可以根据自己的需要编码发送给客户端的数据，这里只是当做文本原样返回
+        return $data;
+    }
+}
+
+服务端协议使用示例
+说明：写法与二进制上传写法一样，即能做到几乎不用改动任何业务代码便可以切换协议
+
+use Workerman\Worker;
+require_once '/your/path/Workerman/Autoloader.php'
+ 
+$worker = new Worker('TextTransfer://0.0.0.0:8333');
+// 保存文件到tmp下
+$worker->onMessage = function($connection, $data)
+{
+    $save_path = '/tmp/'.$data['file_name'];
+    file_put_contents($save_path, $data['file_data']);
+    $connection->send("upload success. save path $save_path");
+};
+ 
+Worker::runAll();
+
+客户端文件 textclient.php （这里用php模拟客户端上传）
+
+
+<?php
+/** 上传文件客户端 **/
+// 上传地址
+$address = "127.0.0.1:8333";
+// 检查上传文件路径参数
+if(!isset($argv[1]))
+{
+   exit("use php client.php \$file_path\n");
+}
+// 上传文件路径
+$file_to_transfer = trim($argv[1]);
+// 上传的文件本地不存在
+if(!is_file($file_to_transfer))
+{
+    exit("$file_to_transfer not exist\n");
+}
+// 建立socket连接
+$client = stream_socket_client($address, $errno, $errmsg);
+if(!$client)
+{
+    exit("$errmsg\n");
+}
+stream_set_blocking($client, 1);
+// 文件名
+$file_name = basename($file_to_transfer);
+// 文件二进制数据
+$file_data = file_get_contents($file_to_transfer);
+// base64编码
+$file_data = base64_encode($file_data);
+// 数据包
+$package_data = array(
+    'file_name' => $file_name,
+    'file_data' => $file_data,
+);
+// 协议包 json+回车
+$package = json_encode($package_data)."\n";
+// 执行上传
+fwrite($client, $package);
+// 打印结果
+echo fread($client, 8192),"\n";
