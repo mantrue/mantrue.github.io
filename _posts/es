@@ -1,0 +1,50 @@
+<?php
+require 'vendor/autoload.php';
+
+use Elasticsearch\ClientBuilder;
+$page    = isset($_GET['page'])?$_GET['page']:1;
+$keyword    = isset($_GET['keyword'])?$_GET['keyword']:"";
+$perPage = 10;
+
+$client = ClientBuilder::create()->setHosts(['10.160.193.43'])->build();
+
+$params = [
+    'index' => 'etoshop',
+    'type' => 'etoshop',
+    'body' => [
+		'from' => ($page - 1) * $perPage,
+		'size' => $perPage,
+		"sort" => [
+			  ["create_time.keyword" => ["order" => "asc"]]
+		],
+		
+        'query' => [
+            'match' => [
+                'product_name' => $keyword
+            ]
+        ],
+		'highlight' => [
+			'pre_tags' => ["<font color='red'>"],
+			'post_tags' => ["</font>"],
+			'fields' => [
+				"product_name" => new \stdClass()
+			]
+		]
+    ],
+];
+
+try {
+	$response = $client->search($params);
+	print_r($response);die();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+//cluster.name: my-application
+//node.name: node-1
+//path.data: /path/to/data
+//path.logs: /path/to/logs
+//network.host: 0.0.0.0
+//http.port: 9200
+//cluster.initial_master_nodes: ["node-1"]
+//先写到这吧
