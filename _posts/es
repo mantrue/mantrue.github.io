@@ -9,6 +9,65 @@
 //
 
 postman批量创建索引
+
+<?php
+require 'vendor/autoload.php';
+
+use Elasticsearch\ClientBuilder;
+
+$client = ClientBuilder::create()->setHosts(['10.160.193.43'])->build();
+
+$params = [
+	'index' => "es_index",  //索引名（相当于mysql的数据库）
+	'body' => [
+		'settings' => [
+			'number_of_shards' => 2,  #分片数
+			'number_of_replicas' => 0,
+		],
+		'mappings' => [
+			'properties' => [ //文档类型设置（相当于mysql的数据类型）
+				'product_id' => [
+					'type' => 'integer',
+				],
+				'title' => [
+					'type' => 'text'
+				],
+				'long_title' => [
+					'type' => 'text'
+				],
+				'sku' => [
+					'type' => 'text'
+				],
+				'money' => [
+					'type' => 'integer'
+				],
+				'sales' => [
+					'type' => 'integer'
+				],
+				'created_at' => [
+					'type' => 'date',
+					'format' => 'yyyy-MM-dd HH:mm:ss || yyyy-MM-dd || epoch_millis',
+				],
+				'updated_at' => [
+					'type' => 'date',
+					'format' => 'yyyy-MM-dd HH:mm:ss || yyyy-MM-dd || epoch_millis',
+				],
+			]
+		]
+	]
+];
+try {
+	echo '创建一个索引' . PHP_EOL;
+        //创建库索引
+        $response = $client->indices()->create($params);
+        print_r($response);die();
+
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+
+curl -X GET http://127.0.0.1:9200/es_index?pretty
+
 http://10.160.193.43:9200/linzhi
 
 {
