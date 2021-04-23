@@ -326,3 +326,438 @@ class Search
     }
  
 }
+
+
+<?php
+/**
+ * Created by PhpStorm.
+ * User: sogubaby
+ * Date: 2018/12/27
+ * Time: 10:33 AM
+ */
+namespace app\api\controller;
+use Elasticsearch\ClientBuilder;
+
+class Elasticsearch extends Base
+{
+    //配置
+    private $config = [
+        'hosts' => ['http://127.0.0.1:9200']
+    ];
+    private $client;
+
+    public function __construct()
+    {
+        $this->client = ClientBuilder::create()->setHosts($this->config['hosts'])->build();
+    }
+
+    /**
+     * 创建索引
+     */
+    public function createIndex($shards = 1 , $replicas = 0)
+    {
+        $params = [];
+        $params['index']  = 'my_index';
+        $params['body'] = [
+            'settings' => [
+                'number_of_shards' => $shards,     //数据分片数，默认为5，有时候设置为3 (非动态设置,不能在线修改)
+                'number_of_replicas' => $replicas,   //数据备份数，如果只有一台机器，设置为0
+                'refresh_interval' => -1
+            ]
+        ];
+        $res = $this->client->indices()->create($params);
+        halt($res);
+    }
+
+    /**
+     * 更改索引配置
+     */
+    public function putSettings()
+    {
+        $params = [
+            'index' => 'xiaochuan',
+            'body' => [
+                'settings' => [
+                    'number_of_replicas' => 3,
+                    'refresh_interval' => -1
+                ]
+            ]
+        ];
+
+        //可以在线改所有配置的参数，number_of_shards不可以在线改
+        $res = $this->client->indices()->putSettings($params);
+        halt($res);
+    }
+    /**
+     * 获取索引配置参数
+     */
+    public function getSettings($params)
+    {
+        # 单个获取条件写法
+        $params['index'] = 'xiaochuan';
+        # 多个获取条件写法
+        //$params['index'] = ['xiaochuan', 'test_index'];
+        $res = $this->client->indices()->getSettings($params);
+        halt($res);
+
+    }
+
+    /**
+     * 更改或增加一个索引的映射
+     */
+    public function putMapping()
+    {
+        $params = [
+            'index' => 'tool_case_articles',
+            'type' => 'my_type2',
+            'body' => [
+                'my_type2' => [
+                    '_source' => [
+                        'enabled' => true
+                    ],
+                    'properties' => [
+                        'first_name' => [
+                            'type' => 'string',
+                            'analyzer' => 'standard'
+                        ],
+                        'age' => [
+                            'type' => 'integer'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $res = $this->client->indices()->putMapping($params);
+        halt($res);
+    }
+    /**
+     * 获取一个索引和类型的映射细节
+     */
+    public function getMapping()
+    {
+        #  获取所有索引和类型的映射
+        $res = $this->client->indices()->getMapping();
+
+
+        #  获取索引为：xiaochuan的映射
+        $params['index'] = 'xiaochuan';
+        $res = $this->client->indices()->getMapping($params);
+
+        #  获取类型为：cat的映射
+        $params['type'] = 'cat';
+        $res = $this->client->indices()->getMapping($params);
+
+        #  获取（索引为：xiaochuan和 类型为：cat）的映射
+        $params['index'] = 'xiaochuan';
+        $params['type']  = 'cat';
+        $res = $this->client->indices()->getMapping($params);
+
+        #  获取索引为：xiaochuan和test_index的映射
+        $params['index'] = ['xiaochuan', 'test_index'];
+        $res = $this->client->indices()->getMapping($params);
+
+        halt($res);
+    }
+
+    /**
+     * 索引一个文档
+     * 说明：索引没有被创建时会自动创建索引
+     */
+    public function addOne()
+    {
+        $params = [];
+        $params['index'] = 'xiaochuan';
+        $params['type']  = 'cat';
+        $params['id']  = '20180407001';  # 不指定就是es自动分配
+        $params['body']  = array('name' => '小川编程');
+        $res = $this->client->index($params);
+        halt($res);
+    }
+    /**
+     * 索引多个文档
+     * 说明：索引没有被创建时会自动创建索引
+     */
+    public function addAll()
+    {
+        $params = [];
+        for($i = 1; $i < 21; $i++) {
+            $params['body'][] = [
+                'index' => [
+                    '_index' => 'test_index'.$i,
+                    '_type'  => 'cat_test',
+                    '_id'    => $i,
+                ]
+            ];
+            $params['body'][] = [
+                'name' => '小川编程'.$i,
+                'content' => '内容'.$i
+            ];
+        }
+
+        $res = $this->client->bulk($params);
+        halt($res);
+    }
+    /**
+     * 获取一个文档
+     */
+    public function getOne()
+    {
+        $params = [];
+        $params['index'] = 'xiaochuan';
+        $params['type']  = 'cat';
+        $params['id']    = '20180407001';
+        $res = $this->client->get($params);
+        halt($res);
+
+    }
+    /**
+     * 判断文档存在
+     */
+    public function exists_doc($id = 1,$index_name = 'test_ik',$type_name = 'goods') {
+        $params = [
+            'index' => $index_name,
+            'type' => $type_name,
+            'id' => $id
+        ];
+
+        $response = $this->client->exists($params);
+        return $response;
+    }
+
+    /**
+     * 删除文档
+     * 说明：文档删除后，不会删除对应索引。
+     */
+    public function delete()
+    {
+        $params = [];
+        $params['index'] = 'xiaochuan';
+        $params['type'] = 'cat';
+        $params['id'] = '20180407001';
+        $res = $this->client->delete($params);
+        halt($res);
+    }
+    /**
+     * 删除索引：匹配单个 | 匹配多个
+     * 说明： 索引删除后，索引下的所有文档也会被删除
+     */
+    public function deleteIndex()
+    {
+        $params = [];
+        $params['index'] = 'test_index';  # 删除test_index单个索引
+        #$params['index'] = 'test_index*'; # 删除以test_index开始的所有索引
+        $res = $this->client->indices()->delete($params);
+        halt($res);
+    }
+    /**
+     * 部分更新文档
+     */
+    public function update1()
+    {
+        $params = [
+            'index' => 'my_index',
+            'type' => 'my_type',
+            'id' => 'my_id',
+            'body' => [
+                'doc' => [
+                    'new_field' => 'abc',
+                    'count' => 1,
+                    'counter' => 3
+                ]
+            ]
+        ];
+        // Update doc at /my_index/my_type/my_id
+        $response = $this->client->update($params);
+        print_r($response);
+    }
+    /**
+     * script更新文档
+     */
+    public function update2()
+    {
+        $params = [
+            'index' => 'my_index',
+            'type' => 'my_type',
+            'id' => 'my_id',
+            'body' => [
+                'script' => 'ctx._source.counter += count',
+                'params' => [
+                    'count' => 4
+                ]
+            ]
+        ];
+
+        $response = $this->client->update($params);
+        print_r($response);
+    }
+    /**
+     * upserts更新文档
+     */
+    public function update3()
+    {
+        $params = [
+            'index' => 'my_index',
+            'type' => 'my_type',
+            'id' => 'my_id',
+            'body' => [
+                'script' => 'ctx._source.counter += count',
+                'params' => [
+                    'count' => 4
+                ],
+                'upsert' => [
+                    'counter' => 1
+                ]
+            ]
+        ];
+
+        $response = $this->client->update($params);
+        print_r($response);
+    }
+
+    /**
+     * 搜索文档
+     */
+    public function search()
+    {
+        $params = [];
+        $params['index'] = 'xiaochuan';
+        $params['type']  = 'cat';
+        $params['body']['query']['match']['name'] = '小川编程';
+        $res = $this->client->search($params);
+        halt($res);
+    }
+
+    //===============Elasticsearch 搜索测试===========================
+
+    public function getSearch($keywords='国家'){
+        $params = [
+            'index' => 'tool_law_articles',
+            'type' => '_doc',
+            'body' => [
+                'from' => 0,   //开始条数
+                'size' => 2,  //每页数量
+                'query'=>[  //搜索关键字
+                    'bool' => [
+                        'must' => [
+                            [ 'match' => [ 'title' => [
+                                'query' => $keywords,
+                                'boost' => 3, // 权重大
+                            ]]],
+                            [ 'match' => [ 'descriptions' => [
+                                'query' => $keywords,
+                                'boost' => 2,
+                            ]]],
+                        ]
+                    ]
+                ],
+                'highlight' => [  //高亮显示
+                    'pre_tags' => ['<font color=\'red\'>'],  //highlight 的开始标签
+                    'post_tags' => ['</font>'],        //highlight 的结束标签
+                    'number_of_fragments' => 3,   //fragment 是指一段连续的文字。返回结果最多可以包含几段不连续的文字。默认是5。
+                    'fragment_size' => 20000,    //一段 fragment 包含多少个字符。默认100。
+                    'fields' =>[
+                        'title' => new \stdClass(),
+                        'descriptions' => new \stdClass(),
+                    ]
+                ],
+                'sort' => [  // 字段排序
+                    'law_id'=>['order'=>'desc']
+                ],
+                'aggs' => [  //分组聚合
+                    'year' => [
+                        'terms' => [
+                            'field' => 'timeliness.keyword'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $response = $this->client->search($params);
+        halt($response);
+        halt($response['hits']['hits'][0]['highlight']);
+
+        #全文搜索
+        #相当于sql语句:select*from ems_run_log where mac='fcd5d900beca' limit 200,10;
+//        $index['index'] = 'log'; //索引名称
+//        $index['type'] = 'ems_run_log'; //类型名称
+//        $index['body']['query']['match']['mac'] = '测试';
+//        $index['size'] = 10;
+//        $index['from'] = 200;
+
+        #精确字段搜索
+        #相当于sql语句:select*from ems_run_log where mac='fcd5d900beca' limit 200,10;
+//        $index['index'] = 'log'; //索引名称
+//        $index['type'] = 'ems_run_log'; //类型名称
+//        $index['body']['query']['match_phrase']['mac'] = 'fcd5d900beca';
+//        $index['size'] = 10;
+//        $index['from'] = 200;
+
+        #高亮搜索结果
+        #相当于sql语句:select*from ems_run_log where mac='fcd5d900beca' limit 200,10;
+//        $index['index'] = 'log'; //索引名称
+//        $index['type'] = 'ems_run_log'; //类型名称
+//        $index['body']['query']['match_phrase']['mac'] = 'fcd5d900beca';
+//        $index['body']['highlight']['fields']['mac'] = {};
+//        $index['size'] = 10;
+//        $index['from'] = 200;
+
+        #相当于sql语句:select*from ems_run_log where mac='fcd5d900beca' and product_id=20 limit 200,10;
+//        $index['index'] = 'log'; //索引名称
+//        $index['type'] = 'ems_run_log'; //类型名称
+//        $index['body']['query']['bool']['must'] = array(
+//            array('match' => array('mac' => 'fcd5d900beca')),
+//            array('match' => array('product_id' => 20))
+//        );
+//        $index['size'] = 10;
+//        $index['from'] = 200;
+
+        #相当于sql语句:select*from ems_run_log where mac!='fcd5d900beca' and product_id!=20 limit 200,10;
+//        $index['index'] = 'log'; //索引名称
+//        $index['type'] = 'ems_run_log'; //类型名称
+//        $index['body']['query']['bool']['must_not'] = array(
+//            array('match' => array('mac' => 'fcd5d900beca')),
+//            array('match' => array('product_id' => 20))
+//        );
+//        $index['size'] = 10;
+//        $index['from'] = 200;
+
+        #当于sql语句:select*from ems_run_log where mac='fcd5d900beca' or product_id=20 limit 200,10;
+//        $index['index'] = 'log'; //索引名称
+//        $index['type'] = 'ems_run_log'; //类型名称
+//        $index['body']['query']['bool']['should'] = array(
+//            array('match' => array('mac' => 'fcd5d900beca')),
+//            array('match' => array('product_id' => 20))
+//        );
+//        $index['size'] = 10;
+//        $index['from'] = 200;
+
+
+        #相当于sql语句:select*from ems_run_log where id>=20 and id<30  limit 200,10;
+//        $index['index'] = 'log'; //索引名称
+//        $index['type'] = 'ems_run_log'; //类型名称
+//        $index['body']['query']['range'] = array(
+//            'id' => array('gte' => 20,'lt' => 30)
+//        );
+//        $index['size'] = 10;
+//        $index['from'] = 200;
+
+//        $params = [
+//            'index' => 'log', //索引名称
+//            'type' => 'ems_run_log', //类型名称
+//            'body' => [
+//                'query' => [
+//                    'constant_score' => [ //非评分模式执行
+//                        'filter' => [ //过滤器，不会计算相关度，速度快
+//                            'term' => [ //精确查找，不支持多个条件
+//                                'about' => '谭'   //字段查找
+//                            ]
+//                        ]
+//
+//                    ]
+//                ]
+//            ]
+//        ];
+
+    }
+}
