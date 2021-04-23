@@ -103,7 +103,8 @@ foreach( $data as $k=>$v ) {
 			'product_name' => $v['product_name'],
 			'cover_pic' => $v['cover_pic'],
 			'sku' => $v['code'],
-			'create_time' => (int)$v['create_time']
+			'create_time' => (int)$v['create_time'],
+			'skus'    => $skus_arr
 		]
 	];
 	try {
@@ -132,7 +133,7 @@ $params = [
 		'from' => ($page - 1) * $perPage,
 		'size' => $perPage,
 		"sort"=>[
-		  ["create_time"=> ["order" => "desc"]]
+		  ["create_time"=> ["order" => "asc"]]
 		],
        'query'=>[  //搜索关键字
 			'bool' => [
@@ -145,6 +146,10 @@ $params = [
 						'query' => $keyword,
 						'boost' => 2,
 					]]],
+					[ 'match' => [ 'skus' => [
+						'query' => $keyword,
+						'boost' => 1,
+					]]]
 				]
 			]
 		],
